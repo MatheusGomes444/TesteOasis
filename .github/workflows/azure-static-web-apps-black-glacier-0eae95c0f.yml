@@ -43,7 +43,7 @@ jobs:
           action: "upload"
           ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
           # Para mais informações sobre a configuração do fluxo de trabalho, acesse: https://aka.ms/swaworkflowconfig
-          app_location: "Frontend"     # Alterado para 'front', já que o código está nesta pasta
+          app_location: "front"     # Alterado para 'front', já que o código está nesta pasta
           api_location: "OasisAPI"          # Deixado vazio, caso não tenha uma API separada
           output_location: "dist"   # Alterado para 'dist', que é mais comum em frameworks como Vue, React, Angular
           github_id_token: ${{ steps.idtoken.outputs.result }}
