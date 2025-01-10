@@ -22,8 +22,10 @@ jobs:
         with:
           submodules: true
           lfs: false
+
       - name: Install OIDC Client from Core Package
         run: npm install @actions/core@1.6.0 @actions/http-client
+
       - name: Get Id Token
         uses: actions/github-script@v6
         id: idtoken
@@ -32,6 +34,7 @@ jobs:
                const coredemo = require('@actions/core')
                return await coredemo.getIDToken()
            result-encoding: string
+
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
@@ -39,12 +42,16 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_BLACK_GLACIER_0EAE95C0F }}
           action: "upload"
           ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
-          # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
-          app_location: "/" # App source code path
-          api_location: "http://localhost:5134" # Api source code path - optional
-          output_location: "dist/frontend" # Built app content directory - optional
+          # Para mais informações sobre a configuração do fluxo de trabalho, acesse: https://aka.ms/swaworkflowconfig
+          app_location: "front"     # Alterado para 'front', já que o código está nesta pasta
+          api_location: ""          # Deixado vazio, caso não tenha uma API separada
+          output_location: "dist"   # Alterado para 'dist', que é mais comum em frameworks como Vue, React, Angular
           github_id_token: ${{ steps.idtoken.outputs.result }}
           ###### End of Repository/Build Configurations ######
+
+      # Passo de debug para listar arquivos após o build
+      - name: List files after build
+        run: ls -R dist/  # Verifique o conteúdo da pasta 'dist' após o build
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
